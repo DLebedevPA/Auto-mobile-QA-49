@@ -1,9 +1,9 @@
 public class MainClass
 {
-    private int class_number = 20;
+    private String class_string = "Hello, world";
 
-    public int getLocalNumber ()
+    public String getLocalString ()
     {
-        return this.class_number;
+        return this.class_string;
     }
 }

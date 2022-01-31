@@ -1,5 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
+import sun.font.TrueTypeFont;
 
 public class MainClassTest
 {
@@ -8,7 +9,7 @@ public class MainClassTest
     @Test
     public void testGetLocalNumber ()
     {
-        int a = MC.getLocalNumber();
-        Assert.assertTrue("LocalNumber less or equal than 45", a > 45);
+        String a = MC.getLocalString();
+        Assert.assertTrue("Local String doesn't contain substring 'Hello' or 'hello'", a.toLowerCase().contains("hello"));
     }
 }
