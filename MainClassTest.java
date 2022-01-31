@@ -9,6 +9,6 @@ public class MainClassTest
     public void testGetLocalNumber ()
     {
         int a = MC.getLocalNumber();
-        Assert.assertTrue("LocalNumber doesn't equal 14", a == 14);
+        Assert.assertTrue("LocalNumber less or equal than 45", a > 45);
     }
 }
