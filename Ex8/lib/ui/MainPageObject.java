@@ -12,6 +12,9 @@ import java.util.List;
 
 public class MainPageObject {
 
+    private static final String
+    SEARCH_FIELD_TEXT = "//*[@resource-id='org.wikipedia:id/search_container']//*[@text='Search Wikipedia']";
+
     protected AppiumDriver driver;
     public MainPageObject(AppiumDriver driver)
     {
@@ -139,4 +142,8 @@ public class MainPageObject {
         return element.getAttribute(attribute);
     }
 
+    public void searchFieldHasText()
+    {
+        waitForElementPresent(By.xpath(SEARCH_FIELD_TEXT), "Cannot find search field text", 5);
+    }
 }

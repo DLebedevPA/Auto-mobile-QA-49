@@ -57,6 +57,14 @@ public class SearchTests extends CoreTestCase
     }
 
     @Test
+    public void testFieldOfSearchHasText()
+    {
+        MainPageObject MainPageObject = new MainPageObject(driver);
+
+        MainPageObject.searchFieldHasText();
+    }
+
+    @Test
     public void testFindSeveralArticlesAndCancelSearch()
     {
 
