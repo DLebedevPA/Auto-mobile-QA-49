@@ -70,46 +70,63 @@ public class MyListsTest extends CoreTestCase
     public void testSaveTwoArticlesToListAndDeleteOneOfThem() throws Exception
     {
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
-        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
-        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-        NavigationUi NavigationUi = NavigationUIFactory.get(driver);
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
+        ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
-        String article_title_1 = ArticlePageObject.getArticleTitle();
+        String article_title1 = ArticlePageObject.getArticleTitle();
 
         if (Platform.getInstance().isAndroid()){
             ArticlePageObject.addArticleToMyList(name_of_folder);
         } else {
             ArticlePageObject.addArticlesToMySaved();
+        }
+        if (Platform.getInstance().isMW()){
+            AuthorizationPageObject Auth = new AuthorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+
+            if (ArticlePageObject.getArticleTitle().equals("Central user log in")){
+                Auth.returnAfterAuthError();
+            }
+
+            assertEquals("We are not on the same page after login",
+                    article_title1,
+                    ArticlePageObject.getArticleTitle()
+            );
         }
 
         ArticlePageObject.closeArticle();
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Appium");
-        SearchPageObject.clickByArticleWithSubstring("Automation for Apps");
+        SearchPageObject.clickByArticleWithSubstring("utomation for Apps");
 
         ArticlePageObject.waitForTitleElement();
-        String article_title_2 = ArticlePageObject.getArticleTitle();
+        String article_title2 = ArticlePageObject.getArticleTitle();
 
         if (Platform.getInstance().isAndroid()){
-            ArticlePageObject.addArticleToMyList(name_of_folder);
+            ArticlePageObject.addArticleToExistingFolder(name_of_folder);
         } else {
             ArticlePageObject.addArticlesToMySaved();
         }
 
-        ArticlePageObject.closeArticle();
-
+        NavigationUi NavigationUi = NavigationUIFactory.get(driver);
+        NavigationUi.openNavigation();
         NavigationUi.clickMyLists();
+
+        MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
 
         if (Platform.getInstance().isAndroid()){
             MyListsPageObject.openFolderByName(name_of_folder);
         }
 
-        MyListsPageObject.swipeByArticleToDelete(article_title_1);
+        MyListsPageObject.swipeByArticleToDelete(article_title2);
     }
 }

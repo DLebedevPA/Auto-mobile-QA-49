@@ -10,7 +10,9 @@ abstract public class MyListsPageObject extends MainPageObject{
     protected static String
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_TITLE_TPL,
-            REMOVE_FROM_SAVED_BUTTON;
+            REMOVE_FROM_SAVED_BUTTON,
+            RESAVE_IN_SAVED_BUTTON;
+
 
     private static String getFolderXpathByName(String name_of_folder)
     {
@@ -78,6 +80,7 @@ abstract public class MyListsPageObject extends MainPageObject{
         }
 
         if (Platform.getInstance().isMW()){
+            this.waitForElementPresent(RESAVE_IN_SAVED_BUTTON, "Cannot find resave button", 5);
             driver.navigate().refresh();
         }
 
