@@ -1,13 +1,13 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class ArticlePageObject extends MainPageObject
-{
+abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
             TITLE,
@@ -21,42 +21,42 @@ abstract public class ArticlePageObject extends MainPageObject
             CLOSE_ARTICLE_BUTTON,
             FOLDER_BY_NAME_TPL;
 
-    private static String getFolderXpathByName(String name_of_folder)
-    {
+    private static String getFolderXpathByName(String name_of_folder) {
         return FOLDER_BY_NAME_TPL.replace("{FOLDER_NAME}", name_of_folder);
     }
 
-    public ArticlePageObject(RemoteWebDriver driver)
-    {
+    public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
     }
 
-    public WebElement waitForTitleElement()
-    {
+    @Step("Waiting for title on the article page")
+    public WebElement waitForTitleElement() {
         return this.waitForElementPresent(TITLE, "Cannot find article title on page!", 15);
     }
 
+    @Step("Get article title")
     public String getArticleTitle()
     {
         WebElement title_element = waitForTitleElement();
-        if (Platform.getInstance().isAndroid()){
+        screenshot(this.takeScreenshot("article_title"));
+        if (Platform.getInstance().isAndroid()) {
             return title_element.getAttribute("text");
-        } else if (Platform.getInstance().isIOS()){
+        } else if (Platform.getInstance().isIOS()) {
             return title_element.getAttribute("name");
         } else {
             return title_element.getText();
         }
     }
 
-    public void swipeToFooter()
-    {
-        if (Platform.getInstance().isAndroid()){
+    @Step("Swiping to footer on article page")
+    public void swipeToFooter() {
+        if (Platform.getInstance().isAndroid()) {
             this.swipeUpToFindElement(
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
                     40
             );
-        } else if (Platform.getInstance().isIOS()){
+        } else if (Platform.getInstance().isIOS()) {
             this.swipeUpTillElementAppear(
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
@@ -72,8 +72,8 @@ abstract public class ArticlePageObject extends MainPageObject
 
     }
 
-    public void addArticleToFolderByName(String name_of_folder)
-    {
+    @Step("Adding the article to folder by folder name")
+    public void addArticleToFolderByName(String name_of_folder) {
         String folder_name_xpath = getFolderXpathByName(name_of_folder);
         this.waitForElementAndClick(
                 folder_name_xpath,
@@ -82,8 +82,8 @@ abstract public class ArticlePageObject extends MainPageObject
         );
     }
 
-    public void addArticleToMyList(String name_of_folder) throws Exception
-    {
+    @Step("Adding the article to My list")
+    public void addArticleToMyList(String name_of_folder) throws Exception {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON, "Cannot find button to open article options", 15
         );
@@ -111,8 +111,8 @@ abstract public class ArticlePageObject extends MainPageObject
         );
     }
 
-    public void addArticleToExistingFolder(String name_of_folder) throws Exception
-    {
+    @Step("Adding the article to existing folder")
+    public void addArticleToExistingFolder(String name_of_folder) throws Exception {
         this.waitForElementAndClick(
                 OPTIONS_BUTTON, "Cannot find button to open article options", 15
         );
@@ -126,17 +126,17 @@ abstract public class ArticlePageObject extends MainPageObject
         this.addArticleToFolderByName(name_of_folder);
     }
 
-    public void addArticlesToMySaved()
-    {
-        if (Platform.getInstance().isMW()){
+    @Step("Adding article to my saved articles")
+    public void addArticlesToMySaved() {
+        if (Platform.getInstance().isMW()) {
             this.removeArticleFromSavedIfItAdded();
         }
         this.waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 5);
     }
 
-    public void removeArticleFromSavedIfItAdded()
-    {
-        if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
+    @Step("Removing thr article from saved if it has been added")
+    public void removeArticleFromSavedIfItAdded() {
+        if (this.isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)) {
             this.waitForElementAndClick(
                     OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
                     "Cannot click button to remove an article from saved",
@@ -149,10 +149,9 @@ abstract public class ArticlePageObject extends MainPageObject
         }
     }
 
-    public void closeArticle()
-    {
-        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid())
-        {
+    @Step("Closing the article")
+    public void closeArticle() {
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
             this.waitForElementAndClick(
                     CLOSE_ARTICLE_BUTTON,
                     "Cannot close article, cannot find X link",
@@ -163,9 +162,5 @@ abstract public class ArticlePageObject extends MainPageObject
 
         }
     }
-
-    public void assertElementPresent(String searching_element)
-    {
-        driver.findElement(By.xpath("//*[@resource-id='org.wikipedia:id/"+ searching_element +"']"));
-    }
 }
+

@@ -1,6 +1,7 @@
 package lib.ui;
 
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import lib.Platform;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -16,6 +17,7 @@ abstract public class NavigationUi extends MainPageObject{
         super(driver);
     }
 
+    @Step("Clicking navigation button")
     public void openNavigation()
     {
         if (Platform.getInstance().isMW()) {
@@ -25,6 +27,7 @@ abstract public class NavigationUi extends MainPageObject{
         }
     }
 
+    @Step("Clicking My Lists button")
     public void clickMyLists()
     {
         if (Platform.getInstance().isMW()) {

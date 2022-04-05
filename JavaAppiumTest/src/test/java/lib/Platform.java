@@ -2,6 +2,7 @@ package lib;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -22,6 +23,7 @@ public class Platform {
 
     private Platform() {}
 
+    @Step("Get instance")
     public static Platform getInstance()
     {
         if (instance == null){
@@ -30,6 +32,7 @@ public class Platform {
         return instance;
     }
 
+    @Step("Get driver")
     public RemoteWebDriver getDriver() throws Exception
     {
         URL URL = new URL(APPIUM_URL);
@@ -59,6 +62,7 @@ public class Platform {
         return isPlatform(PLATFORM_MOBILE_WEB);
     }
 
+    @Step("Get Android desired capabilities")
     private DesiredCapabilities getAndroidDesiredCapabilities()
     {
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -72,6 +76,7 @@ public class Platform {
         return capabilities;
     }
 
+    @Step("Get iOS desired capabilities")
     private DesiredCapabilities getIOSDesiredCapabilities()
     {
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -82,6 +87,7 @@ public class Platform {
         return capabilities;
     }
 
+    @Step("Get Mobile Web Chrome options")
     private ChromeOptions getMwChromeOptions()
     {
         Map<String, Object> deviceMetrics = new HashMap<String, Object>();
@@ -105,6 +111,7 @@ public class Platform {
         return my_platform.equals(platform);
     }
 
+    @Step("Get platform from environment")
     public String getPlatformVar()
     {
         return System.getenv("PLATFORM");

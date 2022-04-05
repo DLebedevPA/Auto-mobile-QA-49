@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import tests.ArticleTests;
 import tests.ChangeAppConditionTests;
-import tests.MyListsTest;
+import tests.MyListTests;
 import tests.SearchTests;
 
 @RunWith(Suite.class)
@@ -12,7 +12,7 @@ import tests.SearchTests;
 @Suite.SuiteClasses({
         ArticleTests.class,
         ChangeAppConditionTests.class,
-        MyListsTest.class,
+        MyListTests.class,
         SearchTests.class
 })
 
